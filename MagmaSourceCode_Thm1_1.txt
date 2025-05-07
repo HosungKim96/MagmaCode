@@ -1,0 +1,150 @@
+P<f00,f10,f01,f20,f11,f02,f30,f21,f12,f03,f40,f31,f22,f13,f04,
+g00,g10,g01,g20,g11,g02,g30,g21,g12,g03,g40,g31,g22,g13,g04,
+h00,h10,h01,h20,h11,h02,h30,h21,h12,h03,h40,h31,h22,h13,h04,
+c00,c10,c01,c20,c11,c02,c30,c21,c12,c03,c40,c31,c22,c13,c04,
+d00,d10,d01,d20,d11,d02,d30,d21,d12,d03,d40,d31,d22,d13,d04,
+e00,e10,e01,e20,e11,e02,e30,e21,e12,e03,e40,e31,e22,e13,e04,u,v,x,y,a,b>
+:=PolynomialRing(Rationals(),96);
+
+
+f:=f00*x^0*y^0+f10*x^1*y^0+f01*x^0*y+f20*y^2*y^0
++f11*x*y+f02*x^0*y^2+f30*x^3*y^0+f21*x^2*y+f12*x^1*y^2+f03*x^0*y^3
++f40*x^4*y^0+f31*x^3*y+f22*x^2*y^2+f13*x*y^3+f04*x^0*y^4;
+
+g:=g00*x^0*y^0+g10*x^1*y^0+g01*x^0*y+g20*y^2*y^0
++g11*x*y+g02*x^0*y^2+g30*x^3*y^0+g21*x^2*y+g12*x^1*y^2+g03*x^0*y^3
++g40*x^4*y^0+g31*x^3*y+g22*x^2*y^2+g13*x*y^3+g04*x^0*y^4;
+
+h:=h00*x^0*y^0+h10*x^1*y^0+h01*x^0*y+h20*y^2*y^0
++h11*x*y+h02*x^0*y^2+h30*x^3*y^0+h21*x^2*y+h12*x^1*y^2+h03*x^0*y^3
++h40*x^4*y^0+h31*x^3*y+h22*x^2*y^2+h13*x*y^3+h04*x^0*y^4;
+
+
+c:=c00*x^0*y^0+c10*x^1*y^0+c01*x^0*y+c20*y^2*y^0
++c11*x*y+c02*x^0*y^2+c30*x^3*y^0+c21*x^2*y+c12*x^1*y^2+c03*x^0*y^3
++c40*x^4*y^0+c31*x^3*y+c22*x^2*y^2+c13*x*y^3+c04*x^0*y^4;
+
+d:=d00*x^0*y^0+d10*x^1*y^0+d01*x^0*y+d20*y^2*y^0
++d11*x*y+d02*x^0*y^2+d30*x^3*y^0+d21*x^2*y+d12*x^1*y^2+d03*x^0*y^3
++d40*x^4*y^0+d31*x^3*y+d22*x^2*y^2+d13*x*y^3+d04*x^0*y^4;
+
+e:=e00*x^0*y^0+e10*x^1*y^0+e01*x^0*y+e20*y^2*y^0
++e11*x*y+e02*x^0*y^2+e30*x^3*y^0+e21*x^2*y+e12*x^1*y^2+e03*x^0*y^3
++e40*x^4*y^0+e31*x^3*y+e22*x^2*y^2+e13*x*y^3+e04*x^0*y^4;
+
+H:=f*u^2+g*v^2+h*u*v;
+G:=c*u^2+d*v^2+e*u*v;
+
+Gx:=Derivative(G,x); Gy:=Derivative(G,y); 
+Gu:=Derivative(G,u); Gv:=Derivative(G,v); 
+
+Hx:=Derivative(H,x); Hy:=Derivative(H,y);
+Hu:=Derivative(H,u); Hv:=Derivative(H,v);
+R:=Hy*Gv-Hv*Gy+Hx*Gu-Hu*Gx;
+
+
+
+
+fx:=Derivative(f,x);
+gx:=Derivative(g,x);
+hx:=Derivative(h,x);
+fy:=Derivative(f,y);
+gy:=Derivative(g,y);
+hy:=Derivative(h,y);
+
+IF:=ideal<P|h04,h13-2*g04,h22-2*g13,h31-2*g22,h40-2*g31,g40,
+             f03,f12-h03,f21+g03-h12,f30+g12-h21,g21-h30,g30,
+             f04,f13,f22-g04,f31-g13,f40-g22,g31>;
+
+IF1:=ideal<P|Evaluate(Evaluate(f,x,0),y,0), 
+             Evaluate(Evaluate(g,x,0),y,0),
+             Evaluate(Evaluate(h,x,0),y,0),
+             Evaluate(Evaluate(gx,x,0),y,0),
+             Evaluate(Evaluate(fy,x,0),y,0),
+             Evaluate(Evaluate(gy-hx,x,0),y,0),
+             Evaluate(Evaluate(fx-hy,x,0),y,0)>;
+IF2:=ideal<P|Evaluate(Evaluate(f,x,1),y,0), 
+             Evaluate(Evaluate(g,x,1),y,0),
+             Evaluate(Evaluate(h,x,1),y,0),
+             Evaluate(Evaluate(gx,x,1),y,0),
+             Evaluate(Evaluate(fy,x,1),y,0),
+             Evaluate(Evaluate(gy-hx,x,1),y,0),
+             Evaluate(Evaluate(fx-hy,x,1),y,0)>;
+IF3:=ideal<P|Evaluate(Evaluate(f,x,0),y,1), 
+             Evaluate(Evaluate(g,x,0),y,1),
+             Evaluate(Evaluate(h,x,0),y,1),
+             Evaluate(Evaluate(gx,x,0),y,1),
+             Evaluate(Evaluate(fy,x,0),y,1),
+             Evaluate(Evaluate(gy-hx,x,0),y,1),
+             Evaluate(Evaluate(fx-hy,x,0),y,1)>;
+IF4:=ideal<P|Evaluate(Evaluate(f,x,1),y,-1), 
+             Evaluate(Evaluate(g,x,1),y,-1),
+             Evaluate(Evaluate(h,x,1),y,-1),
+             Evaluate(Evaluate(gx,x,1),y,-1),
+             Evaluate(Evaluate(fy,x,1),y,-1),
+             Evaluate(Evaluate(gy-hx,x,1),y,-1),
+             Evaluate(Evaluate(fx-hy,x,1),y,-1)>;
+IF5:=ideal<P|Evaluate(Evaluate(f,x,a),y,b), 
+             Evaluate(Evaluate(g,x,a),y,b),
+             Evaluate(Evaluate(h,x,a),y,b),
+             Evaluate(Evaluate(gx,x,a),y,b),
+             Evaluate(Evaluate(fy,x,a),y,b),
+             Evaluate(Evaluate(gy-hx,x,a),y,b),
+             Evaluate(Evaluate(fx-hy,x,a),y,b)>;
+
+cx:=Derivative(c,x);
+dx:=Derivative(d,x);
+ex:=Derivative(e,x);
+cy:=Derivative(c,y);
+dy:=Derivative(d,y);
+ey:=Derivative(e,y);
+
+IG:=ideal<P| e04,e13-2*d04,e22-2*d13,e31-2*d22,e40-2*d31,d40,
+c03,c12-e03,c21+d03-e12,c30+d12-e21,d21-e30,d30,
+c04,c13,c22-d04,c31-d13,c40-d22,d31>;
+
+IG1:=ideal<P|Evaluate(Evaluate(c,x,0),y,0), 
+             Evaluate(Evaluate(d,x,0),y,0),
+             Evaluate(Evaluate(e,x,0),y,0),
+             Evaluate(Evaluate(dx,x,0),y,0),
+             Evaluate(Evaluate(cy,x,0),y,0),
+             Evaluate(Evaluate(dy-ex,x,0),y,0),
+             Evaluate(Evaluate(cx-ey,x,0),y,0)>;
+IG2:=ideal<P|Evaluate(Evaluate(c,x,1),y,0), 
+             Evaluate(Evaluate(d,x,1),y,0),
+             Evaluate(Evaluate(e,x,1),y,0),
+             Evaluate(Evaluate(dx,x,1),y,0),
+             Evaluate(Evaluate(cy,x,1),y,0),
+             Evaluate(Evaluate(dy-ex,x,1),y,0),
+             Evaluate(Evaluate(cx-ey,x,1),y,0)>;
+IG3:=ideal<P|Evaluate(Evaluate(c,x,0),y,1), 
+             Evaluate(Evaluate(d,x,0),y,1),
+             Evaluate(Evaluate(e,x,0),y,1),
+             Evaluate(Evaluate(dx,x,0),y,1),
+             Evaluate(Evaluate(cy,x,0),y,1),
+             Evaluate(Evaluate(dy-ex,x,0),y,1),
+             Evaluate(Evaluate(cx-ey,x,0),y,1)>;
+IG4:=ideal<P|Evaluate(Evaluate(c,x,1),y,-1), 
+             Evaluate(Evaluate(d,x,1),y,-1),
+             Evaluate(Evaluate(e,x,1),y,-1),
+             Evaluate(Evaluate(dx,x,1),y,-1),
+             Evaluate(Evaluate(cy,x,1),y,-1),
+             Evaluate(Evaluate(dy-ex,x,1),y,-1),
+             Evaluate(Evaluate(cx-ey,x,1),y,-1)>;
+IG5:=ideal<P|Evaluate(Evaluate(c,x,a),y,b), 
+             Evaluate(Evaluate(d,x,a),y,b),
+             Evaluate(Evaluate(e,x,a),y,b),
+             Evaluate(Evaluate(dx,x,a),y,b),
+             Evaluate(Evaluate(cy,x,a),y,b),
+             Evaluate(Evaluate(dy-ex,x,a),y,b),
+             Evaluate(Evaluate(cx-ey,x,a),y,b)>;
+
+I:=IF+IF1+IF2+IF3+IF4+IF5+IG+IG1+IG2+IG3+IG4+IG5;
+
+
+(b+1)*a*b*R in I;
+(a-1)*a*b*R in I;
+(a-1)*(b+1)*a*R in I;
+(a-1)*a*b*R in I;
+(b+1)*a*b*R in I;
+(2*a + b - 1)*b*R in I;
